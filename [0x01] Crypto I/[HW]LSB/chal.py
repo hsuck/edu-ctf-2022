@@ -11,9 +11,7 @@ phi = (p - 1) * (q - 1)
 e = 65537
 d = pow(e, -1, phi)
 
-FLAG = b'flag{aaa}'
 m = bytes_to_long(FLAG + os.urandom(256 - len(FLAG)))
-print( m )
 assert m < n
 enc = pow(m, e, n)
 print(n)

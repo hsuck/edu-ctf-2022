@@ -64,6 +64,3 @@ x, y = 1018060571407808505447145304436447838257851670751471959006969666283489444
 G = Point(x, y)
 F = double_and_add(G, flag)
 print(F.x, F.y)
-
-B = point_addition( G, G )
-print( B.x, B.y  )

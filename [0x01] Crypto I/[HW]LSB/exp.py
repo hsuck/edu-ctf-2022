@@ -1,5 +1,6 @@
 from Crypto.Util.number import *
 from pwn import *
+from sage.all import *
 
 p = remote( 'edu-ctf.zoolab.org', 10102 )
 
@@ -7,7 +8,6 @@ n = int( p.recvline().decode().strip() )
 e = int( p.recvline().decode().strip() )
 enc = int( p.recvline().decode().strip() )
 print( n, e, enc )
-input('>')
 
 inv_3 = inverse( 3, n )
 i = 0
