@@ -14,12 +14,18 @@ i = 0
 b = 0
 pt = 0
 while True:
+    # calculate oracle
     oracle = ( pow( inv_3, e * i, n ) * enc ) % n
     p.sendline( str( oracle ).encode() )
+
+    # calculate i-th bit
     r = int( p.recvline().decode().strip() )
     x_i = ( r - ( inv_3 * b ) % n ) % 3
 
+    # record to use for next bit
     b = ( inv_3 * b + x_i ) % n
+
+    # restore
     pt += x_i * ( 3 ** i )
     print( r, x_i, i, pt )
 

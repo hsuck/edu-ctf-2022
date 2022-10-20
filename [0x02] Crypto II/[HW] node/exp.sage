@@ -1,57 +1,11 @@
 from collections import namedtuple
 from sage.all import *
 from Crypto.Util.number import long_to_bytes
+from chal import *
 
 p = 143934749405770267808039109533241671783161568136679499142376907171125336784176335731782823029409453622696871327278373730914810500964540833790836471525295291332255885782612535793955727295077649715977839675098393245636668277194569964284391085500147264756136769461365057766454689540925417898489465044267493955801
 a = -3
 b = 2
-
-Point = namedtuple("Point", "x y")
-O = 'Origin'
-
-def check_point(P):
-    if P == O:
-        return True
-    else:
-        return (P.y**2 - (P.x**3 + a*P.x + b)) % p == 0 and 0 <= P.x < p and 0 <= P.y < p
-
-def point_inverse(P):
-    if P == O:
-        return P
-    return Point(P.x, -P.y % p)
-
-def point_addition(P, Q):
-    assert check_point(P)
-    assert check_point(Q)
-    if P == O:
-        return Q
-    elif Q == O:
-        return P
-    elif Q == point_inverse(P):
-        return O
-    else:
-        if P == Q:
-            lam = (3*P.x**2 + a)*inverse_mod(2*P.y, p)
-            lam %= p
-        else:
-            lam = (Q.y - P.y) * inverse_mod((Q.x - P.x), p)
-            lam %= p
-    Rx = (lam**2 - P.x - Q.x) % p
-    Ry = (lam*(P.x - Rx) - P.y) % p
-    R = Point(Rx, Ry)
-    assert check_point(R)
-    return R
-
-def double_and_add(G, k):
-    P = G
-    R = O
-    while k > 0:
-        if k % 2 == 1:
-            R = point_addition(R, P)
-        P = point_addition(P, P)
-        k = k // 2
-    assert check_point(R)
-    return R
 
 # check singular
 singular = 4 * a**3 + 27 * b**2 % p
