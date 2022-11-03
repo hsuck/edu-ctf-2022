@@ -61,7 +61,7 @@ for data in datas:
     pm.append( data['pm'] )
 
 pt, pm = np.array( pt ), np.array( pm )
-#print( pt.shape, pm.shape )
+print( pt.shape, pm.shape )
 
 keys = np.zeros( 256, np.uint8 )
 for i in range( 256 ):
